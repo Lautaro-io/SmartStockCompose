@@ -24,6 +24,6 @@ data class ProductEntity(
     val count: Int,
     val expireDate: String,
     val codeBar: String,
-    val image : String? = null,
+    var image : String? = "https://cdn.iconscout.com/icon/premium/png-512-thumb/empty-1670040-1418099.png?f=webp&w=512",
     val branchFkId: Long,
 )

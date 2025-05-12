@@ -1,13 +1,17 @@
 package com.chelo.smartstock.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.chelo.smartstock.data.api.ProductDataResponse
+import com.chelo.smartstock.data.api.RetrofitInstance
 import com.chelo.smartstock.data.entities.ProductEntity
 import com.chelo.smartstock.data.local.repositories.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,8 +23,9 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
 
     val allProducts = repository.getAllProducts()
 
-    private val _selectedBranch = MutableStateFlow<Long?>(null)
 
+    //Sucursal seleccionada
+    private val _selectedBranch = MutableStateFlow<Long?>(null)
     val selectedBranch: StateFlow<Long?> = _selectedBranch
 
 
@@ -28,10 +33,15 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
     // _filteredProducts Este va a ser controlado por el viewmodel para modificar su valor en caso de que el usuario quiera filtrar por sucursal
     // filteredProductsEste es inmutable para la ui
 
+
+    //Resultados de la sucursal seleccionada
     private val _filteredProducts =
         MutableStateFlow<List<ProductEntity>>(emptyList())
-
     val filteredProducts: StateFlow<List<ProductEntity>?> = _filteredProducts
+
+    //Respuesta de la api para buscar x codigo
+    private val _productResult = MutableStateFlow<ProductDataResponse?>(null)
+    val productResult: StateFlow<ProductDataResponse?> = _productResult.asStateFlow()
 
 
     fun insertProduct(product: ProductEntity) {
@@ -71,5 +81,16 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
         }
     }
 
+
+    fun getProductByCode(code: String) {
+        viewModelScope.launch {
+            try {
+                val result = RetrofitInstance.api.getProductByCode(code)
+                _productResult.value = result.body()
+            } catch (e: Exception) {
+                _productResult.value = null
+            }
+        }
+    }
 
 }
