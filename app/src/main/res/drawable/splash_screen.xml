@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <color android:color="#FF0077B6" />
+    </item>
+    <item >
+        <bitmap android:src="@drawable/supermarket" android:gravity="center" />
+    </item>
+</layer-list>
