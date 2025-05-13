@@ -24,20 +24,22 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.chelo.smartstock.R
 import com.chelo.smartstock.data.entities.ProductEntity
+import com.chelo.smartstock.ui.features.mainscreen.components.HeaderApp
 import com.chelo.smartstock.ui.features.mainscreen.components.ProductItem
 import com.chelo.smartstock.ui.features.mainscreen.components.SectionTitle
+import com.chelo.smartstock.ui.features.navigation.productForm
 import com.chelo.smartstock.ui.theme.BackgroundColor
 import com.chelo.smartstock.ui.theme.ButtonBackground
 import com.chelo.smartstock.ui.theme.WhiteText
 
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun MainScreen() {
+fun MainScreen(navController: NavController) {
     Scaffold(floatingActionButton = {
         FloatingActionButton(
-            onClick = { println("") }, containerColor = ButtonBackground,
+            onClick = { navController.navigate(productForm.route) }, containerColor = ButtonBackground,
             contentColor = WhiteText
         ) { Icon(Icons.Default.Add, contentDescription = "Add Icon") }
     }) { innerPadding ->
@@ -46,23 +48,8 @@ fun MainScreen() {
                 .fillMaxSize()
                 .padding()
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding()
-                    .height(250.dp)
-                    .clip(RoundedCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp))
-                    .background(
-                        BackgroundColor
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Column {
+            HeaderApp()
 
-                    Image(painterResource(R.drawable.supermarket), contentDescription = "App Icon")
-                }
-                ///BOXSCOPE DENTRO DE LO AZUL
-            }
             Spacer(
                 modifier = Modifier
                     .padding(8.dp)

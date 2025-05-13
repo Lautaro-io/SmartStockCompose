@@ -15,3 +15,7 @@ object mainScreen{
 object splashScreen{
     val route = "splashscreen"
 }
+
+object productForm{
+    val route = "productform"
+}

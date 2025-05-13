@@ -12,6 +12,7 @@ import com.chelo.smartstock.data.datastore.DataStoreManager
 import com.chelo.smartstock.ui.features.loginscreen.BranchLoginScreen
 import com.chelo.smartstock.ui.features.loginscreen.UserLoginScreen
 import com.chelo.smartstock.ui.features.mainscreen.MainScreen
+import com.chelo.smartstock.ui.features.mainscreen.ProductForm
 
 import com.chelo.smartstock.ui.features.splashscreen.SplashScreenApp
 
@@ -33,7 +34,10 @@ fun NavigationWrapper() {
         }
 
         composable(mainScreen.route) {
-            MainScreen()
+            MainScreen(navController)
+        }
+        composable(productForm.route) {
+            ProductForm()
         }
 
     }
