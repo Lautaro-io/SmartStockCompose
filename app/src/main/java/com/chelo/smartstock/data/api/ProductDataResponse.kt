@@ -8,5 +8,5 @@ data class ProductDataResponse(
 
 data class DataProduct(
     @SerializedName("product_name") val nameProduct : String,
-    @SerializedName("image_url") val imageProduct : String?
+    @SerializedName("image_front_url") val imageProduct : String
 )

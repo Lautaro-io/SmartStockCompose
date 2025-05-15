@@ -19,3 +19,7 @@ object splashScreen{
 object productForm{
     val route = "productform"
 }
+
+object cameraScreen{
+    val route = "camerascreen"
+}

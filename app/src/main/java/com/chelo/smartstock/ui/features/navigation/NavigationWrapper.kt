@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.chelo.smartstock.data.datastore.DataStoreManager
+import com.chelo.smartstock.ui.features.camerascreen.CameraScreen
 import com.chelo.smartstock.ui.features.loginscreen.BranchLoginScreen
 import com.chelo.smartstock.ui.features.loginscreen.UserLoginScreen
 import com.chelo.smartstock.ui.features.mainscreen.MainScreen
@@ -37,7 +38,10 @@ fun NavigationWrapper() {
             MainScreen(navController)
         }
         composable(productForm.route) {
-            ProductForm()
+            ProductForm(navController)
+        }
+        composable(cameraScreen.route ){
+            CameraScreen()
         }
 
     }

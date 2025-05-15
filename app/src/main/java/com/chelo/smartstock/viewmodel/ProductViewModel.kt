@@ -24,22 +24,13 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
     val allProducts = repository.getAllProducts()
 
 
-    //Sucursal seleccionada
     private val _selectedBranch = MutableStateFlow<Long?>(null)
     val selectedBranch: StateFlow<Long?> = _selectedBranch
 
 
-    //Esto que se hace acontinuacion se llama encapsulamiento del estado mutable, es un patron de disenio para evitar que la UI acceda directamente al valor de selectedBranch
-    // _filteredProducts Este va a ser controlado por el viewmodel para modificar su valor en caso de que el usuario quiera filtrar por sucursal
-    // filteredProductsEste es inmutable para la ui
-
-
-    //Resultados de la sucursal seleccionada
-    private val _filteredProducts =
-        MutableStateFlow<List<ProductEntity>>(emptyList())
+    private val _filteredProducts = MutableStateFlow<List<ProductEntity>>(emptyList())
     val filteredProducts: StateFlow<List<ProductEntity>?> = _filteredProducts
 
-    //Respuesta de la api para buscar x codigo
     private val _productResult = MutableStateFlow<ProductDataResponse?>(null)
     val productResult: StateFlow<ProductDataResponse?> = _productResult.asStateFlow()
 
@@ -67,10 +58,7 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
     }
 
 
-    //Que paso en esta funcion, getBranchProducts devuelve un Flow<List<PRoduct>> y _filteredProducts espera un List<Product>>
-    // en especifico,
-    // lo que se hizo fue dentro de la corrutina collectar los resultados de la funcion getBranchProducts
-    // y asignarlos en _filteredProducts
+
     fun productsByBranch() {
         viewModelScope.launch {
             val branchId = _selectedBranch.value ?: 0

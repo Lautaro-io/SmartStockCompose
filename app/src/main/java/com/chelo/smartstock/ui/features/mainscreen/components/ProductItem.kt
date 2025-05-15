@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -26,45 +28,72 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.chelo.smartstock.data.entities.ProductEntity
 import com.chelo.smartstock.ui.theme.BackgroundColor
+import com.chelo.smartstock.ui.theme.ErrorRed
 import com.chelo.smartstock.ui.theme.WhiteText
+import com.chelo.smartstock.viewmodel.ProductViewModel
 
 @Composable
 fun ProductItem(product: ProductEntity) {
     var expanded by remember { mutableStateOf(false) }
+    var showDeleteDialog by remember { mutableStateOf(false) }
+    val productViewModel: ProductViewModel = hiltViewModel()
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 24.dp),
+            .padding(24.dp),
         elevation = CardDefaults.cardElevation(4.dp),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(BackgroundColor, WhiteText),
-        onClick = {expanded = !expanded}
+        onClick = { expanded = !expanded }
     ) {
-        Column(
+        Row(
             modifier = Modifier
                 .padding(16.dp)
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+                .fillMaxSize(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
                 model = product.image,
                 contentDescription = "product img",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.size(150.dp)
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .size(150.dp)
             )
-            Text(product.nameProduct, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-            Spacer(modifier= Modifier.height(4.dp))
-            AnimatedVisibility(expanded) {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    Text("Codigo: ${product.codeBar}")
-                    Text("Cantidad: ${product.count}")
-                    Text("Feche de vencimiento: ${product.expireDate}")
+            Column(modifier = Modifier.fillMaxWidth()) {
+
+                Text(product.nameProduct, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                Text("Codigo: ${product.codeBar}")
+                Text("Cantidad: ${product.count}")
+                Text("Vencimiento: ${product.expireDate}")
+                Spacer(modifier = Modifier.height(4.dp))
+                AnimatedVisibility(expanded) {
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                        Button(
+                            onClick = { showDeleteDialog = true },
+                            colors = ButtonDefaults.buttonColors(
+                                contentColor = WhiteText,
+                                containerColor = ErrorRed
+                            )
+                        ) { Text("Eliminar") }
+                    }
+                    if (showDeleteDialog) {
+                        DeleteDialog(
+                            onDismissClick = { showDeleteDialog = false },
+                            onConfirmClick = {
+                                productViewModel.deleteProduct(product)
+                                showDeleteDialog = false
+                            })
+                    }
+
                 }
             }
+
         }
 
     }

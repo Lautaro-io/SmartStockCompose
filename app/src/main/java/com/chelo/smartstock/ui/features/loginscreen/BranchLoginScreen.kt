@@ -108,8 +108,7 @@ fun BranchLoginScreen(navController: NavController) {
                     ).show()
 
                 } else {
-                    val branch = BranchEntity(0, branchName, userId)
-                    branchViewModel.addBranch(branch)
+                    branchViewModel.addBranch(BranchEntity(branchName = branchName , userIdFk = userId))
                     Toast.makeText(context, "Sucursal agregada", Toast.LENGTH_SHORT).show()
                     navController.navigate("mainscreen")
                 }

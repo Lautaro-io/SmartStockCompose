@@ -22,7 +22,7 @@ import androidx.room.PrimaryKey
 
 
 data class BranchEntity(
-    @PrimaryKey(autoGenerate = true) val branchId: Long,
+    @PrimaryKey(autoGenerate = true) val branchId: Long = 0 ,
     val branchName: String,
     val userIdFk: Long,
 

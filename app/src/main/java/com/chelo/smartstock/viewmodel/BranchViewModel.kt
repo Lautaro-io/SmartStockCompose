@@ -11,6 +11,8 @@ import javax.inject.Inject
 @HiltViewModel
 class BranchViewModel @Inject constructor(private val repository: BranchRepository) : ViewModel(){
 
+    val allBranches = repository.getAllBranches()
+
     fun addBranch(branch: BranchEntity){
         viewModelScope.launch {
             repository.insertBranch(branch)
@@ -28,4 +30,7 @@ class BranchViewModel @Inject constructor(private val repository: BranchReposito
             repository.updateBranch(branch)
         }
     }
+
+
+
 }

@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+
 }
 
 android {
@@ -110,5 +111,15 @@ dependencies {
 
     //Coil
     implementation("io.coil-kt:coil-compose:2.4.0")
+
+
+    //CameraX
+
+    
+    val camerax_version = "1.3.0-rc01"
+    implementation ("com.google.accompanist:accompanist-permissions:0.28.0")
+    implementation( "androidx.camera:camera-camera2:${camerax_version}")
+    implementation( "androidx.camera:camera-lifecycle:${camerax_version}")
+    implementation( "androidx.camera:camera-view:${camerax_version}")
 
 }
