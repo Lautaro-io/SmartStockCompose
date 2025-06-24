@@ -56,7 +56,7 @@ import java.time.ZoneId
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProductForm(navController: NavController) {
+fun ProductForm(navController: NavController, decodeImage: String? ) {
 
     val pvm: ProductViewModel = hiltViewModel()
     val branchViewModel: BranchViewModel = hiltViewModel()
@@ -96,7 +96,6 @@ fun ProductForm(navController: NavController) {
                             contentDescription = null,
                             tint = WhiteText
                         )
-
                     }
                 }
 
@@ -110,10 +109,10 @@ fun ProductForm(navController: NavController) {
                 .padding()
                 .height(150.dp))
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().padding(vertical = 32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                ImageContainter(image, navController)
+                ImageContainter(decodeImage, navController)
                 PersonalizedTextField(
                     value = pvm.nameProduct,
                     onValueChange = { pvm.onNameChanged(it) },

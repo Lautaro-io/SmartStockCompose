@@ -1,6 +1,5 @@
 package com.chelo.smartstock.ui.features.productformscreen.components
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,18 +15,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.chelo.smartstock.R
+import com.chelo.smartstock.ui.features.navigation.cameraScreen
 import com.chelo.smartstock.ui.theme.BackgroundColor
 import com.chelo.smartstock.ui.theme.WhiteText
+import java.io.File
 
 
 @Composable
-fun ImageContainter(image: String?, navController: NavController, modifier: Modifier = Modifier) {
-
+fun ImageContainter(imagePath: String?, navController: NavController, modifier: Modifier = Modifier) {
+    val file = imagePath?.let { File(it) }
     Box(contentAlignment = Alignment.Center) {
         Row(
             modifier = modifier
@@ -36,11 +38,12 @@ fun ImageContainter(image: String?, navController: NavController, modifier: Modi
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (image != null && image != "")
+            if (file != null && file.exists())
                 Image(
-                    painter = rememberAsyncImagePainter(image),
+                    painter = rememberAsyncImagePainter(file),
                     contentDescription = "",
                     modifier = modifier.fillMaxSize()
+                    , contentScale = ContentScale.Crop
                 )
             else
                 Image(
@@ -52,7 +55,7 @@ fun ImageContainter(image: String?, navController: NavController, modifier: Modi
 
         }
         FloatingActionButton(
-            onClick = { Log.i("Chelo", "fob apretado") },
+            onClick = { navController.navigate(cameraScreen.route)},
             shape = CircleShape,
             modifier = modifier.align(alignment = Alignment.BottomEnd),
             contentColor = WhiteText,

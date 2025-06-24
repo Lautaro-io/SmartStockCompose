@@ -1,9 +1,12 @@
 package com.chelo.smartstock.ui.features.navigation
 
+import android.net.Uri
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.chelo.smartstock.ui.features.camerascreen.CameraScreen
 import com.chelo.smartstock.ui.features.loginscreen.BranchLoginScreen
 import com.chelo.smartstock.ui.features.loginscreen.UserLoginScreen
@@ -31,11 +34,22 @@ fun NavigationWrapper() {
         composable(mainScreen.route) {
             MainScreen(navController)
         }
-        composable(productForm.route) {
-            ProductForm(navController)
+        composable(
+            route = "${productForm.route}?imagePath={imagePath}",
+            arguments = listOf(
+                navArgument("imagePath") {
+                    type = NavType.StringType
+                    nullable = true
+                    defaultValue = null
+                }
+            )
+        ) { backStackEntry ->
+            val imagePath = backStackEntry.arguments?.getString("imagePath")
+            val decodeImage = Uri.decode(imagePath ?: "")
+            ProductForm(navController, decodeImage)
         }
         composable(cameraScreen.route ){
-            CameraScreen()
+            CameraScreen(navController)
         }
 
     }
