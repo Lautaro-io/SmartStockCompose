@@ -1,7 +1,6 @@
 package com.chelo.smartstock.data.api
 
 import retrofit2.Response
-import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Path
 

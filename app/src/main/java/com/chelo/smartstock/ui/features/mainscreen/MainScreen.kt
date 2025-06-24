@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -20,11 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.chelo.smartstock.data.entities.ProductEntity
 import com.chelo.smartstock.ui.features.mainscreen.components.HeaderApp
 import com.chelo.smartstock.ui.features.mainscreen.components.ProductItem
 import com.chelo.smartstock.ui.features.mainscreen.components.SectionTitle
-import com.chelo.smartstock.ui.features.navigation.cameraScreen
 import com.chelo.smartstock.ui.features.navigation.productForm
 import com.chelo.smartstock.ui.theme.ButtonBackground
 import com.chelo.smartstock.ui.theme.WhiteText

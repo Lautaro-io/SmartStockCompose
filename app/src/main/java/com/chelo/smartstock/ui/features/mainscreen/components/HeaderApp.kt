@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,12 +21,11 @@ import com.chelo.smartstock.ui.theme.BackgroundColor
 import com.chelo.smartstock.ui.theme.WhiteText
 
 @Composable
-fun HeaderApp(){
+fun HeaderApp(modifier: Modifier = Modifier){
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding()
-            .height(250.dp)
+            .height(200.dp)
             .clip(RoundedCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp))
             .background(
                 BackgroundColor
