@@ -1,6 +1,5 @@
 package com.chelo.smartstock.ui.features.productformscreen
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -42,9 +41,8 @@ import androidx.navigation.NavController
 import com.chelo.smartstock.data.entities.BranchEntity
 import com.chelo.smartstock.data.entities.ProductEntity
 import com.chelo.smartstock.ui.features.mainscreen.components.HeaderApp
-import com.chelo.smartstock.ui.features.mainscreen.components.SectionTitle
 import com.chelo.smartstock.ui.features.navigation.mainScreen
-import com.chelo.smartstock.ui.features.productformscreen.components.ImageContainter
+import com.chelo.smartstock.ui.features.productformscreen.components.ImageContainer
 import com.chelo.smartstock.ui.features.productformscreen.components.PersonalizedTextField
 import com.chelo.smartstock.ui.theme.BackgroundColor
 import com.chelo.smartstock.ui.theme.ButtonBackground
@@ -71,7 +69,6 @@ fun ProductForm(navController: NavController, decodeImage: String? ) {
     var expireDate = ""
 
 
-    var image: String? by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
 
     date?.let {
@@ -83,10 +80,9 @@ fun ProductForm(navController: NavController, decodeImage: String? ) {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(BackgroundColor),
                 title = {
-                    SectionTitle(
+                    Text(
                         "Agregar Producto",
-                        WhiteText,
-                        modifier = Modifier.padding(0.dp)
+                        color = WhiteText,
                     )
                 },
                 navigationIcon = {
@@ -112,7 +108,7 @@ fun ProductForm(navController: NavController, decodeImage: String? ) {
                 modifier = Modifier.fillMaxSize().padding(vertical = 32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                ImageContainter(decodeImage, navController)
+                ImageContainer(imagePath = decodeImage, navController = navController , imageUrl = pvm.image)
                 PersonalizedTextField(
                     value = pvm.nameProduct,
                     onValueChange = { pvm.onNameChanged(it) },
@@ -156,10 +152,7 @@ fun ProductForm(navController: NavController, decodeImage: String? ) {
                         allBranches.value.forEach { branch ->
                             DropdownMenuItem(
                                 onClick = {
-                                    Log.i(
-                                        "CHELO",
-                                        "${branch.branchName} ${branch.branchId} id gurdaddo ${selectedBranch?.branchId}"
-                                    )
+
                                     selectedBranch = branch
                                     expanded = false
 
@@ -190,10 +183,8 @@ fun ProductForm(navController: NavController, decodeImage: String? ) {
                     Button(
                         onClick = {
                             pvm.getProductByCode(pvm.codeBar)
-                            pvm.onCodebarChanged(
-                                pvm.productResult.value?.product?.nameProduct ?: ""
-                            )
-                            image = pvm.productResult.value?.product?.imageProduct
+
+
 
                         }, modifier = Modifier.weight(1f),
                         colors = ButtonDefaults.buttonColors(
@@ -205,9 +196,6 @@ fun ProductForm(navController: NavController, decodeImage: String? ) {
                     }
                 }
                 Spacer(modifier = Modifier.height(8.dp))
-
-
-
                 Button(
                     onClick = {
                         pvm.insertProduct(
@@ -217,7 +205,7 @@ fun ProductForm(navController: NavController, decodeImage: String? ) {
                                 count = pvm.countProduct.toInt(),
                                 expireDate = expireDate,
                                 codeBar = pvm.codeBar,
-                                image = image,
+                                image = decodeImage,
                                 branchFkId = selectedBranch?.branchId ?: -1
                             )
                         )

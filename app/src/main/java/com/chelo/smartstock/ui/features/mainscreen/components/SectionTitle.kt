@@ -15,21 +15,26 @@ import androidx.compose.ui.unit.sp
 import com.chelo.smartstock.ui.theme.SoftGray
 
 @Composable
-fun SectionTitle(text: String , color : Color = SoftGray , modifier : Modifier = Modifier) {
+fun SectionTitle(text: String, color: Color = SoftGray, modifier: Modifier = Modifier) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(4.dp)
     ) {
 
         Text(
             text,
-            modifier = modifier.padding(horizontal = 8.dp),
             color = color,
-            fontSize = 16.sp,
+            fontSize = 24.sp,
             fontWeight = FontWeight.Bold
         )
-        Divider(color = color, thickness = 1.dp, modifier = Modifier.weight(1f))
+        Divider(
+            color = color,
+            thickness = 1.dp,
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 4.dp)
+        )
     }
 }

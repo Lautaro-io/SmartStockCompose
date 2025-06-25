@@ -32,6 +32,9 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
     var countProduct by mutableStateOf("")
         private set
 
+    var image by mutableStateOf("")
+        private set
+
 
     fun onNameChanged(value: String) {
         nameProduct = value
@@ -92,13 +95,16 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
 
 
     fun getProductByCode(code: String) {
+        codeBar = code
         viewModelScope.launch {
-            try {
-                val result = RetrofitInstance.api.getProductByCode(code)
-                _productResult.value = result.body()
+            val result =  try {
+              RetrofitInstance.api.getProductByCode(codeBar).body()
             } catch (e: Exception) {
-                _productResult.value = null
+                 null
             }
+            _productResult.value = result
+            nameProduct = _productResult.value?.product?.nameProduct ?: "No encontrado"
+            image = _productResult.value?.product?.imageProduct ?: ""
         }
     }
 

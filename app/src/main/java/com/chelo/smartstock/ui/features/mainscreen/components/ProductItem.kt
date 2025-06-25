@@ -44,7 +44,7 @@ fun ProductItem(product: ProductEntity) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(24.dp),
+            .padding(12.dp),
         elevation = CardDefaults.cardElevation(4.dp),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(BackgroundColor, WhiteText),
@@ -52,7 +52,7 @@ fun ProductItem(product: ProductEntity) {
     ) {
         Row(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(8.dp)
                 .fillMaxSize(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically

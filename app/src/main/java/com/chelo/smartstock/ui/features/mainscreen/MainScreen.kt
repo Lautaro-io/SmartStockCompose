@@ -33,6 +33,7 @@ fun MainScreen(navController: NavController) {
     var allProducts = productViewModel.allProducts.collectAsState(emptyList())
     Scaffold(floatingActionButton = {
         FloatingActionButton(
+            modifier = Modifier.padding(24.dp),
             onClick = { navController.navigate(productForm.route) },
             containerColor = ButtonBackground,
             contentColor = WhiteText
@@ -41,19 +42,17 @@ fun MainScreen(navController: NavController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding()
         ) {
             HeaderApp()
 
             Spacer(
                 modifier = Modifier
-                    .padding(8.dp)
+                    .padding(innerPadding)
                     .height(1.dp)
             )
-            SectionTitle("Productos")
+            SectionTitle("Productos"  )
             LazyColumn(
                 modifier = Modifier
-                    .padding(innerPadding)
                     .fillMaxSize()
             ) {
                 itemsIndexed(allProducts.value.reversed()) {index, product->
