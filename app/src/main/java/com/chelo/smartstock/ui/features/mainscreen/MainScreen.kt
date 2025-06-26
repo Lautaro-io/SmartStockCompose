@@ -51,7 +51,7 @@ fun MainScreen(navController: NavController) {
                     .padding(innerPadding)
                     .height(1.dp)
             )
-            SectionTitle("Productos" , modifier = Modifier.padding(horizontal = 8.dp)  )
+            SectionTitle("Productos", modifier = Modifier.padding(horizontal = 8.dp))
 
             if (allProducts.value.isEmpty())
                 EmptyComponent()
@@ -60,8 +60,10 @@ fun MainScreen(navController: NavController) {
                     modifier = Modifier
                         .fillMaxSize()
                 ) {
-                    itemsIndexed(allProducts.value.reversed()) {index, product->
-                        ProductItem(product)
+                    itemsIndexed(allProducts.value.reversed()) { index, product ->
+                        ProductItem(
+                            product,
+                            onEditButton = { navController.navigate("${productForm.route}?imagePath=${product.image}?productId=${product.productId}") })
                     }
                 }
 

@@ -1,7 +1,7 @@
 package com.chelo.smartstock.ui.features.mainscreen.components
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,18 +30,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
 import com.chelo.smartstock.data.entities.ProductEntity
+import com.chelo.smartstock.ui.theme.BackgroundColor
 import com.chelo.smartstock.ui.theme.BlackText
 import com.chelo.smartstock.ui.theme.ErrorRed
 import com.chelo.smartstock.ui.theme.WhiteText
 import com.chelo.smartstock.viewmodel.ProductViewModel
 
 @Composable
-fun ProductItem(product: ProductEntity) {
+fun ProductItem(product: ProductEntity, onEditButton: () -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
     val productViewModel: ProductViewModel = hiltViewModel()
+    val image = product.image?.trim()?.replace("\uFEFF", "")
+    Log.i("CHELO",image!!.toString())
 
     Card(
         modifier = Modifier
@@ -49,7 +52,7 @@ fun ProductItem(product: ProductEntity) {
             .padding(12.dp),
         elevation = CardDefaults.cardElevation(8.dp),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = WhiteText , contentColor = BlackText),
+        colors = CardDefaults.cardColors(containerColor = WhiteText, contentColor = BlackText),
         onClick = { expanded = !expanded }
     ) {
         Row(
@@ -59,8 +62,8 @@ fun ProductItem(product: ProductEntity) {
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = rememberAsyncImagePainter(product.image),
+            AsyncImage(
+                model = image,
                 contentDescription = "product img",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -77,7 +80,17 @@ fun ProductItem(product: ProductEntity) {
                 Text("Vencimiento: ${product.expireDate}")
                 Spacer(modifier = Modifier.height(4.dp))
                 AnimatedVisibility(expanded) {
-                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        Button(
+                            onClick = { onEditButton() },
+                            colors = ButtonDefaults.buttonColors(
+                                contentColor = WhiteText,
+                                containerColor = BackgroundColor
+                            )
+                        ) { Text("Editar") }
                         Button(
                             onClick = { showDeleteDialog = true },
                             colors = ButtonDefaults.buttonColors(

@@ -35,18 +35,23 @@ fun NavigationWrapper() {
             MainScreen(navController)
         }
         composable(
-            route = "${productForm.route}?imagePath={imagePath}",
+            route = "${productForm.route}?imagePath={imagePath}?productId={productId}",
             arguments = listOf(
                 navArgument("imagePath") {
                     type = NavType.StringType
                     nullable = true
                     defaultValue = null
+                },
+                navArgument("productId") {
+                    type = NavType.LongType
+                    defaultValue = -1L
                 }
             )
         ) { backStackEntry ->
             val imagePath = backStackEntry.arguments?.getString("imagePath")
             val decodeImage = Uri.decode(imagePath ?: "")
-            ProductForm(navController, decodeImage)
+            val productId = backStackEntry.arguments?.getLong("productId").takeIf { it != -1L }
+            ProductForm(navController, decodeImage,productId)
         }
         composable(cameraScreen.route ){
             CameraScreen(navController)

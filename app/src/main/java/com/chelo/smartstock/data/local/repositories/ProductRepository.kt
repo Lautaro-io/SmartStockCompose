@@ -21,5 +21,7 @@ class ProductRepository @Inject constructor(private val productDao: ProductDao) 
     fun getBranchProducts(branchId: Long): Flow<List<ProductEntity>> =
         productDao.getBranchProducts(branchId)
 
+    suspend  fun getProductById(productId: Long) = productDao.getProductById(productId)
+
 
 }

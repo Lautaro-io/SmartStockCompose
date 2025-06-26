@@ -16,7 +16,7 @@ import com.chelo.smartstock.data.entities.UserEntity
         ProductEntity::class,
         UserEntity::class
     ],
-    version = 1
+    version = 2
 )
 
 abstract class AppDataBase : RoomDatabase() {

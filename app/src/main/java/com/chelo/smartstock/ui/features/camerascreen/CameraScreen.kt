@@ -114,7 +114,7 @@ fun takePicture(
     cameraController.takePicture(output, executor, object : ImageCapture.OnImageSavedCallback {
         override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
             val encodeImage = Uri.encode(image.absolutePath)
-            navController.navigate("${productForm.route}?imagePath=$encodeImage") {
+            navController.navigate("${productForm.route}?imagePath=$encodeImage?productId=-1") {
                 popUpTo(
                     mainScreen.route
                 )

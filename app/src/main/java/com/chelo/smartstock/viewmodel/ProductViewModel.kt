@@ -1,5 +1,6 @@
 package com.chelo.smartstock.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -36,6 +37,13 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
         private set
 
 
+    var expireDate by mutableStateOf("")
+        private set
+
+    fun onExpireDateChange(value: String){
+        expireDate  = value
+    }
+
     fun onNameChanged(value: String) {
         nameProduct = value
     }
@@ -45,6 +53,9 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
         codeBar = value
     }
 
+    fun onImageChanged(value : String){
+        image = value
+    }
     fun onCountChanged( value : String  ){
         countProduct = value
     }
@@ -93,6 +104,26 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
         }
     }
 
+    fun saveProduct(productId: Long?){
+        viewModelScope.launch { 
+            val product = ProductEntity(
+                productId = productId ?: 0,
+                nameProduct = nameProduct,
+                count = countProduct.toInt() ,
+                expireDate = expireDate,
+                codeBar = codeBar,
+                image = image,
+                branchFkId = selectedBranch.value!!
+            )
+            if (productId != null)
+                updateProduct(product)
+            else
+                insertProduct(product)
+        }
+        
+    }
+
+
 
     fun getProductByCode(code: String) {
         codeBar = code
@@ -105,6 +136,21 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
             _productResult.value = result
             nameProduct = _productResult.value?.product?.nameProduct ?: "No encontrado"
             image = _productResult.value?.product?.imageProduct ?: ""
+            Log.i("CHELO",image.toString())
+        }
+    }
+
+
+    fun loadProduct(productId : Long? ){
+        viewModelScope.launch {
+            val product = repository.getProductById(productId!!)
+            nameProduct = product.nameProduct
+            codeBar = product.codeBar
+            countProduct = product.count.toString()
+            image = product.image
+            expireDate = product.expireDate
+            _selectedBranch.value = product.branchFkId
+
         }
     }
 

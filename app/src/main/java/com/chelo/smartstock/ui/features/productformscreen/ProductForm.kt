@@ -28,6 +28,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,7 +41,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.chelo.smartstock.data.entities.BranchEntity
-import com.chelo.smartstock.data.entities.ProductEntity
 import com.chelo.smartstock.ui.features.mainscreen.components.HeaderApp
 import com.chelo.smartstock.ui.features.navigation.mainScreen
 import com.chelo.smartstock.ui.features.productformscreen.components.ImageContainer
@@ -55,27 +55,38 @@ import java.time.ZoneId
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProductForm(navController: NavController, decodeImage: String? ) {
+fun ProductForm(navController: NavController, decodeImage: String?, productId: Long?) {
 
     val pvm: ProductViewModel = hiltViewModel()
     val branchViewModel: BranchViewModel = hiltViewModel()
 
     val allBranches = branchViewModel.allBranches.collectAsState(initial = emptyList())
     var selectedBranch by remember { mutableStateOf<BranchEntity?>(null) }
+
     var showDateDialog by remember { mutableStateOf(false) }
 
 
     var state = rememberDatePickerState()
     var date = state.selectedDateMillis
-    var expireDate = ""
+
+    LaunchedEffect(Unit) {
+        productId?.let {
+            pvm.loadProduct(it)
+        }
+        decodeImage?.let {
+            pvm.onImageChanged(it)
+        }
+    }
 
 
     var expanded by remember { mutableStateOf(false) }
 
     date?.let {
         var localDate = Instant.ofEpochMilli(it).atZone(ZoneId.of("UTC")).toLocalDate()
-        expireDate = "${localDate.dayOfMonth}/${localDate.month}/${localDate.year}"
+        pvm.onExpireDateChange("${localDate.dayOfMonth}/${localDate.month}/${localDate.year}")
     }
+
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -99,17 +110,27 @@ fun ProductForm(navController: NavController, decodeImage: String? ) {
             )
         }
     ) { innerPadding ->
-        Column(Modifier
-            .fillMaxSize()
-            .padding(innerPadding)) {
-            HeaderApp(modifier = Modifier
-                .padding()
-                .height(150.dp))
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            HeaderApp(
+                modifier = Modifier
+                    .padding()
+                    .height(150.dp)
+            )
             Column(
-                modifier = Modifier.fillMaxSize().padding(vertical = 32.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(vertical = 32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                ImageContainer(imagePath = decodeImage, navController = navController , imageUrl = pvm.image)
+                ImageContainer(
+                    imagePath = decodeImage,
+                    navController = navController,
+                    imageUrl = pvm.image
+                )
                 PersonalizedTextField(
                     value = pvm.nameProduct,
                     onValueChange = { pvm.onNameChanged(it) },
@@ -156,8 +177,7 @@ fun ProductForm(navController: NavController, decodeImage: String? ) {
                         allBranches.value.forEach { branch ->
                             DropdownMenuItem(
                                 onClick = {
-
-                                    selectedBranch = branch
+                                    pvm.selectBranch(branch.branchId)
                                     expanded = false
 
                                 },
@@ -188,8 +208,6 @@ fun ProductForm(navController: NavController, decodeImage: String? ) {
                         onClick = {
                             pvm.getProductByCode(pvm.codeBar)
 
-
-
                         }, modifier = Modifier.weight(1f),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = ButtonBackground,
@@ -202,17 +220,7 @@ fun ProductForm(navController: NavController, decodeImage: String? ) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(
                     onClick = {
-                        pvm.insertProduct(
-                            ProductEntity(
-                                productId = 0,
-                                nameProduct = pvm.nameProduct,
-                                count = pvm.countProduct.toInt(),
-                                expireDate = expireDate,
-                                codeBar = pvm.codeBar,
-                                image = decodeImage,
-                                branchFkId = selectedBranch?.branchId ?: -1
-                            )
-                        )
+                        pvm.saveProduct(productId )
                         navController.navigate(mainScreen.route)
                     },
                     modifier = Modifier
@@ -222,7 +230,12 @@ fun ProductForm(navController: NavController, decodeImage: String? ) {
                         containerColor = BackgroundColor,
                         contentColor = WhiteText
                     )
-                ) { Text("Agregar producto", fontSize = 18.sp) }
+                ) {
+                    Text(
+                        if (productId != null) "Actualizar producto" else "Agregar producto",
+                        fontSize = 18.sp
+                    )
+                }
 
                 if (showDateDialog) {
                     DatePickerDialog(
