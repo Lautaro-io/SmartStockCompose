@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.chelo.smartstock.ui.features.mainscreen.components.EmptyComponent
 import com.chelo.smartstock.ui.features.mainscreen.components.HeaderApp
 import com.chelo.smartstock.ui.features.mainscreen.components.ProductItem
 import com.chelo.smartstock.ui.features.mainscreen.components.SectionTitle
@@ -51,14 +52,18 @@ fun MainScreen(navController: NavController) {
                     .height(1.dp)
             )
             SectionTitle("Productos" , modifier = Modifier.padding(horizontal = 8.dp)  )
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                itemsIndexed(allProducts.value.reversed()) {index, product->
-                    ProductItem(product)
+
+            if (allProducts.value.isEmpty())
+                EmptyComponent()
+            else
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    itemsIndexed(allProducts.value.reversed()) {index, product->
+                        ProductItem(product)
+                    }
                 }
-            }
 
 
         }

@@ -36,6 +36,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.chelo.smartstock.data.entities.BranchEntity
@@ -127,12 +128,15 @@ fun ProductForm(navController: NavController, decodeImage: String? ) {
                     label = ("Cantidad")
                 )
                 Spacer(modifier = Modifier.height(8.dp))
+
+
+
                 ExposedDropdownMenuBox(
                     expanded,
                     onExpandedChange = { expanded = !expanded },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 64.dp)
+                        .padding(horizontal = 55.dp)
                 ) {
                     OutlinedTextField(
                         value = selectedBranch?.branchName ?: "Seleccione una sucursal",
@@ -218,7 +222,7 @@ fun ProductForm(navController: NavController, decodeImage: String? ) {
                         containerColor = BackgroundColor,
                         contentColor = WhiteText
                     )
-                ) { Text("Agregar producto") }
+                ) { Text("Agregar producto", fontSize = 18.sp) }
 
                 if (showDateDialog) {
                     DatePickerDialog(

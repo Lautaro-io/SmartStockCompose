@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
@@ -28,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -91,6 +93,8 @@ fun BranchLoginScreen(navController: NavController) {
                 onValueChange = { branchName = it },
                 placeholder = { Text("Nombre de la sucursal") },
                 colors = TextFieldDefaults.colors(),
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp)
             )
@@ -108,7 +112,11 @@ fun BranchLoginScreen(navController: NavController) {
                 } else {
                     branchViewModel.addBranch(BranchEntity(branchName = branchName , userIdFk = userId))
                     Toast.makeText(context, "Sucursal agregada", Toast.LENGTH_SHORT).show()
-                    navController.navigate("mainscreen")
+                    navController.navigate("mainscreen"){
+                        popUpTo(0){
+                            inclusive = true
+                        }
+                    }
                 }
 
             }, modifier = Modifier

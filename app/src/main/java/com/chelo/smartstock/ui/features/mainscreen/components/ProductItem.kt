@@ -71,7 +71,7 @@ fun ProductItem(product: ProductEntity) {
             )
             Column(modifier = Modifier.fillMaxWidth()) {
 
-                Text(product.nameProduct.capitalize(), fontSize = 32.sp, fontWeight = FontWeight.Bold)
+                Text(product.nameProduct, fontSize = 32.sp, fontWeight = FontWeight.Bold)
                 Text("Codigo: ${product.codeBar}")
                 Text("Cantidad: ${product.count}")
                 Text("Vencimiento: ${product.expireDate}")

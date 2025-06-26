@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
@@ -27,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -81,7 +83,10 @@ fun UserLoginScreen(navController: NavController) {
                 modifier = Modifier.fillMaxWidth(),
                 value = name,
                 onValueChange = { name = it },
-                placeholder = { Text("Nombre de usuario", color = SoftGray) },
+                placeholder = { Text("Nombre", color = SoftGray) },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+
                 shape = RoundedCornerShape(16.dp),
                 colors = TextFieldDefaults.colors()
 
@@ -90,16 +95,18 @@ fun UserLoginScreen(navController: NavController) {
 
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
                 value = surname,
                 onValueChange = { surname = it },
-                placeholder = { Text("Apellido de usuario", color = SoftGray) },
+                placeholder = { Text("Apellido", color = SoftGray) },
                 shape = RoundedCornerShape(16.dp),
+                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+                
                 colors = TextFieldDefaults.colors()
             )
             Spacer(modifier = Modifier.height(8.dp))
 
 
-            //Que problema habia?
             Button(
                 onClick = {
                     if (name.isEmpty() && surname.isEmpty()) {
@@ -114,12 +121,12 @@ fun UserLoginScreen(navController: NavController) {
                                 dataStore.saveUserName(user.name)
                             }
 
-                            Toast.makeText(context, "Usuario registrado.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Usuario registrado.", Toast.LENGTH_SHORT)
+                                .show()
 
                             navController.navigate("branchloginscreen")
                         }
                     }
-
 
 
                 },
