@@ -26,7 +26,7 @@ fun SectionTitle(text: String, color: Color = SoftGray, modifier: Modifier = Mod
         Text(
             text,
             color = color,
-            fontSize = 24.sp,
+            fontSize = 16.sp,
             fontWeight = FontWeight.Bold
         )
         Divider(

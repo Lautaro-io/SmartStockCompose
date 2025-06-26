@@ -50,7 +50,7 @@ fun MainScreen(navController: NavController) {
                     .padding(innerPadding)
                     .height(1.dp)
             )
-            SectionTitle("Productos"  )
+            SectionTitle("Productos" , modifier = Modifier.padding(horizontal = 8.dp)  )
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()

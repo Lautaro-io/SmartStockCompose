@@ -1,6 +1,7 @@
 package com.chelo.smartstock.ui.features.mainscreen.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,14 +24,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
 import com.chelo.smartstock.data.entities.ProductEntity
-import com.chelo.smartstock.ui.theme.BackgroundColor
+import com.chelo.smartstock.ui.theme.BlackText
 import com.chelo.smartstock.ui.theme.ErrorRed
 import com.chelo.smartstock.ui.theme.WhiteText
 import com.chelo.smartstock.viewmodel.ProductViewModel
@@ -45,28 +47,31 @@ fun ProductItem(product: ProductEntity) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(12.dp),
-        elevation = CardDefaults.cardElevation(4.dp),
+        elevation = CardDefaults.cardElevation(8.dp),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(BackgroundColor, WhiteText),
+        colors = CardDefaults.cardColors(containerColor = WhiteText , contentColor = BlackText),
         onClick = { expanded = !expanded }
     ) {
         Row(
             modifier = Modifier
-                .padding(8.dp)
+                .padding(4.dp)
                 .fillMaxSize(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            AsyncImage(
-                model = product.image,
+            Image(
+                painter = rememberAsyncImagePainter(product.image),
                 contentDescription = "product img",
-                contentScale = ContentScale.Fit,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(150.dp)
+                    .clip(RoundedCornerShape(32.dp))
+                    .padding(4.dp)
+
             )
             Column(modifier = Modifier.fillMaxWidth()) {
 
-                Text(product.nameProduct, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                Text(product.nameProduct.capitalize(), fontSize = 32.sp, fontWeight = FontWeight.Bold)
                 Text("Codigo: ${product.codeBar}")
                 Text("Cantidad: ${product.count}")
                 Text("Vencimiento: ${product.expireDate}")
