@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -85,7 +86,7 @@ fun UserLoginScreen(navController: NavController) {
                 onValueChange = { name = it },
                 placeholder = { Text("Nombre", color = SoftGray) },
                 singleLine = true,
-                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences, imeAction = ImeAction.Done),
 
                 shape = RoundedCornerShape(16.dp),
                 colors = TextFieldDefaults.colors()
@@ -95,12 +96,12 @@ fun UserLoginScreen(navController: NavController) {
 
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
-                singleLine = true,
                 value = surname,
                 onValueChange = { surname = it },
                 placeholder = { Text("Apellido", color = SoftGray) },
                 shape = RoundedCornerShape(16.dp),
-                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences , imeAction = ImeAction.Done),
                 
                 colors = TextFieldDefaults.colors()
             )

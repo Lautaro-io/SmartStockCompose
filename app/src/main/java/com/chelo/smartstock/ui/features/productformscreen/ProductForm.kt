@@ -140,13 +140,15 @@ fun ProductForm(navController: NavController, decodeImage: String?, productId: L
                 PersonalizedTextField(
                     value = pvm.codeBar,
                     onValueChange = { pvm.onCodebarChanged(it) },
-                    label = ("Codigo de barra")
+                    label = ("Codigo de barra"),
+                    isNumber = true
                 )
 
                 PersonalizedTextField(
                     value = pvm.countProduct,
                     onValueChange = { pvm.onCountChanged(it) },
-                    label = ("Cantidad")
+                    label = ("Cantidad"),
+                    isNumber = true
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 

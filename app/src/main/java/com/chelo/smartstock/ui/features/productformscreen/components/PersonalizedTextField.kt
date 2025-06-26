@@ -6,7 +6,9 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.chelo.smartstock.ui.theme.BackgroundColor
 
@@ -15,7 +17,11 @@ fun PersonalizedTextField(
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
+    isNumber: Boolean = false,
 ) {
+    val type = if (isNumber) KeyboardOptions(keyboardType = KeyboardType.Number) else KeyboardOptions(
+        keyboardType = KeyboardType.Text
+    )
     OutlinedTextField(
         value = value,
         onValueChange = { onValueChange(it) },
@@ -25,8 +31,13 @@ fun PersonalizedTextField(
             focusedBorderColor = BackgroundColor,
             focusedLabelColor = BackgroundColor
         ),
-        keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
-
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Done,
+            capitalization = KeyboardCapitalization.Sentences,
+            keyboardType = type.keyboardType
+        ),
     )
+
 
 }
