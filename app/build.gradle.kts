@@ -64,11 +64,16 @@ dependencies {
     // Room
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
 
     // Dagger Hilt
     implementation ("com.google.dagger:hilt-android:2.50")
     kapt ("com.google.dagger:hilt-android-compiler:2.50")
+    implementation("androidx.room:room-ktx:2.6.1")
+
+    implementation ("androidx.hilt:hilt-work:1.2.0")
+    kapt("androidx.hilt:hilt-compiler:1.2.0")
+    implementation ("androidx.work:work-runtime-ktx:2.9.0")
+
 
 // Para ViewModel en Compose
     implementation ("androidx.hilt:hilt-navigation-compose:1.1.0")
@@ -115,7 +120,9 @@ dependencies {
 
     //CameraX
 
-    
+    implementation("androidx.work:work-runtime-ktx:2.10.1")
+
+
     val camerax_version = "1.3.0-rc01"
     implementation ("com.google.accompanist:accompanist-permissions:0.28.0")
     implementation( "androidx.camera:camera-camera2:${camerax_version}")

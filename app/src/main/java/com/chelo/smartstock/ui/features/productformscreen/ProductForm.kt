@@ -1,5 +1,6 @@
 package com.chelo.smartstock.ui.features.productformscreen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -52,6 +53,7 @@ import com.chelo.smartstock.viewmodel.BranchViewModel
 import com.chelo.smartstock.viewmodel.ProductViewModel
 import java.time.Instant
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -83,7 +85,9 @@ fun ProductForm(navController: NavController, decodeImage: String?, productId: L
 
     date?.let {
         var localDate = Instant.ofEpochMilli(it).atZone(ZoneId.of("UTC")).toLocalDate()
-        pvm.onExpireDateChange("${localDate.dayOfMonth}/${localDate.month}/${localDate.year}")
+        val format = localDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
+        Log.i("CHELO" , "Fecha : $format ")
+        pvm.onExpireDateChange(format)
     }
 
 
