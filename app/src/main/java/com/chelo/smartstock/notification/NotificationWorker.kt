@@ -22,8 +22,8 @@ import dagger.assisted.AssistedInject
 class NotificationWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val scheduler : SchedulerNotification,
-    private val checker : NotificationCheckerUseCase
+    private val scheduler: SchedulerNotification,
+    private val checker: NotificationCheckerUseCase,
 ) : CoroutineWorker(context, workerParams) {
 
     init {
@@ -39,18 +39,25 @@ class NotificationWorker @AssistedInject constructor(
         Log.i("CHELO", "Worker en dowork")
         createNotificationChannel()
         try {
-            if (checker.checkExpireDate())
-                Log.i("CHELO", checker.checkExpireDate().toString())
-                showNotification()
-                scheduler.scheduleNotification()
+            when {
+                checker.isProductExpired() ->{
+                    showNotification("Alerta!" , "Tienes un producto vencido! ")
+                }
+                checker.checkExpireDate() -> {
+                    showNotification("Atencion", "Tienes uno o mas productos pronto a vencer! ")
+                    scheduler.scheduleNotification()
+                }
+
+
+            }
             return Result.success()
-        }catch (e: Exception){
+        } catch (e: Exception) {
             Log.i("CHELO", e.toString())
             return Result.failure()
         }
     }
 
-    private fun showNotification() {
+    private fun showNotification(title: String, message: String) {
         val intent = Intent(applicationContext, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -64,8 +71,8 @@ class NotificationWorker @AssistedInject constructor(
             applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val notification = NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL)
-            .setContentTitle("Atencion!")
-            .setContentText("Tienes un producto pronto a vencer")
+            .setContentTitle(title)
+            .setContentText(message)
             .setPriority(NotificationManager.IMPORTANCE_HIGH)
             .setSmallIcon(R.drawable.emptyicon)
             .setContentIntent(pendingIntent)

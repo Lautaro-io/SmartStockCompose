@@ -10,19 +10,28 @@ import javax.inject.Inject
 class NotificationCheckerUseCase @Inject constructor(
     private val productRepo: ProductRepository,
 ) {
-
+    val allProducts = productRepo.getAllProducts()
     suspend fun checkExpireDate(): Boolean {
         val today = LocalDate.now()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-
-        val products = productRepo.getAllProducts().first()
+        val products = allProducts.first()
         val result = products.any {
             val date = LocalDate.parse(it.expireDate, formatter)
             val should = ChronoUnit.DAYS.between(today, date) in 1..30
             should
         }
-
-
         return result
+
     }
+
+
+    suspend fun isProductExpired(): Boolean {
+        return allProducts.first().any{
+            val date = LocalDate.parse(it.expireDate , DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+            date == LocalDate.now()
+        }
+    }
+
+
+
 }
