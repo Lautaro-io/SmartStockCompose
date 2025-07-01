@@ -1,6 +1,5 @@
 package com.chelo.smartstock.ui.features.mainscreen.components
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -43,8 +42,7 @@ fun ProductItem(product: ProductEntity, onEditButton: () -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
     val productViewModel: ProductViewModel = hiltViewModel()
-    val image = product.image?.trim()?.replace("\uFEFF", "")
-    Log.i("CHELO",image!!.toString())
+    val image = product.image.trim()
 
     Card(
         modifier = Modifier
@@ -72,7 +70,7 @@ fun ProductItem(product: ProductEntity, onEditButton: () -> Unit) {
                     .padding(4.dp)
 
             )
-            Column(modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
 
                 Text(product.nameProduct, fontSize = 32.sp, fontWeight = FontWeight.Bold)
                 Text("Codigo: ${product.codeBar}")
@@ -82,21 +80,24 @@ fun ProductItem(product: ProductEntity, onEditButton: () -> Unit) {
                 AnimatedVisibility(expanded) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Button(
                             onClick = { onEditButton() },
                             colors = ButtonDefaults.buttonColors(
                                 contentColor = WhiteText,
                                 containerColor = BackgroundColor
-                            )
+                            ),
+                            modifier = Modifier.weight(1f)
                         ) { Text("Editar") }
                         Button(
                             onClick = { showDeleteDialog = true },
                             colors = ButtonDefaults.buttonColors(
                                 contentColor = WhiteText,
                                 containerColor = ErrorRed
-                            )
+                            ),
+                            modifier = Modifier.weight(1f)
+
                         ) { Text("Eliminar") }
                     }
                     if (showDeleteDialog) {
