@@ -1,5 +1,8 @@
 package com.chelo.smartstock.viewmodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chelo.smartstock.data.entities.BranchEntity
@@ -13,10 +16,21 @@ class BranchViewModel @Inject constructor(private val repository: BranchReposito
 
     val allBranches = repository.getAllBranches()
 
+    var newBranch  by  mutableStateOf("")
+        private set
+
+    var selectedBranch by mutableStateOf<BranchEntity?>(null)
+        private set
+
+    fun onNameBranchChange(value : String) { newBranch = value}
     fun addBranch(branch: BranchEntity){
         viewModelScope.launch {
             repository.insertBranch(branch)
         }
+    }
+
+    fun selectBranch(value : BranchEntity){
+        selectedBranch = value
     }
 
     fun deleteBranch(branch: BranchEntity){

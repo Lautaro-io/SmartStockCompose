@@ -18,10 +18,10 @@ class ProductRepository @Inject constructor(private val productDao: ProductDao) 
 
     fun getAllProducts(): Flow<List<ProductEntity>> = productDao.getAllProducts()
 
-    fun getBranchProducts(branchId: Long): Flow<List<ProductEntity>> =
-        productDao.getBranchProducts(branchId)
+
 
     suspend  fun getProductById(productId: Long) = productDao.getProductById(productId)
 
+    suspend  fun getProductsByBranch(branchId: Long) = productDao.getProductsByBranch(branchId)
 
 }

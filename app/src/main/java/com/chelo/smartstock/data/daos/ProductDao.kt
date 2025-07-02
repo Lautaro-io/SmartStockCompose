@@ -23,11 +23,12 @@ interface ProductDao {
     @Query("SELECT * FROM products")
     fun getAllProducts(): Flow<List<ProductEntity>>
 
-    @Query("SELECT * FROM products WHERE branchFkId = :branchId")
-    fun getBranchProducts(branchId: Long):Flow<List<ProductEntity>>
 
     @Query ("SELECT * FROM products WHERE productId = :productId" )
     suspend fun getProductById(productId: Long) : ProductEntity
+
+    @Query ("SELECT * FROM products WHERE branchFkId = :branchId" )
+    fun getProductsByBranch(branchId: Long) : Flow<List<ProductEntity>>
 
 
 }

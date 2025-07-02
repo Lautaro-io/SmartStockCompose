@@ -24,7 +24,6 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
 
     val allProducts = repository.getAllProducts()
 
-
     var nameProduct by mutableStateOf("")
         private set
     var codeBar by mutableStateOf("")
@@ -94,15 +93,7 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
     }
 
 
-    fun productsByBranch() {
-        viewModelScope.launch {
-            val branchId = _selectedBranch.value ?: 0
-            val products = repository.getBranchProducts(branchId).collect { product ->
-                _filteredProducts.value = product
-            }
 
-        }
-    }
 
     fun saveProduct(productId: Long?){
         viewModelScope.launch { 
@@ -151,6 +142,16 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
             expireDate = product.expireDate
             _selectedBranch.value = product.branchFkId
 
+        }
+    }
+
+
+    fun filterProducts(branchId : Long){
+        viewModelScope.launch {
+            val result = repository.getProductsByBranch(branchId).collect {
+                _filteredProducts.value = it
+
+            }
         }
     }
 

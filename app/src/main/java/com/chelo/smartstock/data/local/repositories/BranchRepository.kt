@@ -14,4 +14,5 @@ class BranchRepository @Inject constructor(private val branchDao: BranchDao) {
     suspend fun updateBranch(branchEntity: BranchEntity) = branchDao.updateBranch(branchEntity)
 
     fun getAllBranches(): Flow<List<BranchEntity>> = branchDao.getAllBranches()
+
 }
