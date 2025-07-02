@@ -83,6 +83,7 @@ fun MainScreen(navController: NavController) {
                 ) {
                     itemsIndexed(products.value.reversed()) { index, product ->
                         ProductItem(
+                            productViewModel,
                             product,
                             onEditButton = { navController.navigate("${productForm.route}?imagePath=${product.image}?productId=${product.productId}") })
                     }

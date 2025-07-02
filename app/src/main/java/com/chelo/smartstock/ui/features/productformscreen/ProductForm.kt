@@ -41,7 +41,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.chelo.smartstock.data.entities.BranchEntity
 import com.chelo.smartstock.ui.features.mainscreen.components.HeaderApp
 import com.chelo.smartstock.ui.features.navigation.mainScreen
 import com.chelo.smartstock.ui.features.productformscreen.components.ImageContainer
@@ -63,7 +62,6 @@ fun ProductForm(navController: NavController, decodeImage: String?, productId: L
     val branchViewModel: BranchViewModel = hiltViewModel()
 
     val allBranches = branchViewModel.allBranches.collectAsState(initial = emptyList())
-    var selectedBranch by remember { mutableStateOf<BranchEntity?>(null) }
 
     var showDateDialog by remember { mutableStateOf(false) }
 
@@ -166,8 +164,8 @@ fun ProductForm(navController: NavController, decodeImage: String?, productId: L
                         .padding(horizontal = 55.dp)
                 ) {
                     OutlinedTextField(
-                        value = selectedBranch?.branchName ?: "Seleccione una sucursal",
-                        onValueChange = {},
+                        value = branchViewModel.selectedBranch?.branchName ?: "Seleccione una sucursal",
+                        onValueChange = { },
                         readOnly = true,
                         label = { Text("Seleccione una sucursal") },
                         shape = RoundedCornerShape(32.dp),
@@ -183,6 +181,7 @@ fun ProductForm(navController: NavController, decodeImage: String?, productId: L
                         allBranches.value.forEach { branch ->
                             DropdownMenuItem(
                                 onClick = {
+                                    branchViewModel.selectBranch(branch)
                                     pvm.selectBranch(branch.branchId)
                                     expanded = false
 

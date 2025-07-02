@@ -28,7 +28,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.chelo.smartstock.data.entities.ProductEntity
 import com.chelo.smartstock.ui.theme.BackgroundColor
@@ -38,11 +37,11 @@ import com.chelo.smartstock.ui.theme.WhiteText
 import com.chelo.smartstock.viewmodel.ProductViewModel
 
 @Composable
-fun ProductItem(product: ProductEntity, onEditButton: () -> Unit) {
+fun ProductItem(productViewModel: ProductViewModel , product: ProductEntity, onEditButton: () -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
-    val productViewModel: ProductViewModel = hiltViewModel()
     val image = product.image.trim()
+    val bg = if (productViewModel.isExpired(product)) ErrorRed else WhiteText
 
     Card(
         modifier = Modifier
@@ -50,7 +49,7 @@ fun ProductItem(product: ProductEntity, onEditButton: () -> Unit) {
             .padding(12.dp),
         elevation = CardDefaults.cardElevation(8.dp),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = WhiteText, contentColor = BlackText),
+        colors = CardDefaults.cardColors(containerColor = bg, contentColor = BlackText),
         onClick = { expanded = !expanded }
     ) {
         Row(

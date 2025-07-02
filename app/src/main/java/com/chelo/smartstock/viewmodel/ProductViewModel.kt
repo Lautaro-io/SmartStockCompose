@@ -15,6 +15,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 
@@ -22,7 +24,6 @@ import javax.inject.Inject
 class ProductViewModel @Inject constructor(private val repository: ProductRepository) :
     ViewModel() {
 
-    val allProducts = repository.getAllProducts()
 
     var nameProduct by mutableStateOf("")
         private set
@@ -62,9 +63,6 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
     private val _selectedBranch = MutableStateFlow<Long?>(null)
     val selectedBranch: StateFlow<Long?> = _selectedBranch
 
-
-    private val _filteredProducts = MutableStateFlow<List<ProductEntity>>(emptyList())
-    val filteredProducts: StateFlow<List<ProductEntity>?> = _filteredProducts
 
     private val _productResult = MutableStateFlow<ProductDataResponse?>(null)
     val productResult: StateFlow<ProductDataResponse?> = _productResult.asStateFlow()
@@ -146,13 +144,9 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
     }
 
 
-    fun filterProducts(branchId : Long){
-        viewModelScope.launch {
-            val result = repository.getProductsByBranch(branchId).collect {
-                _filteredProducts.value = it
-
-            }
-        }
+    fun isExpired(product: ProductEntity) : Boolean{
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        return LocalDate.parse(product.expireDate , formatter) < LocalDate.now()
     }
 
 }
