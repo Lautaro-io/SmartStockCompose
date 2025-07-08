@@ -29,20 +29,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.chelo.smartstock.data.entities.ProductEntity
+import com.chelo.smartstock.data.entities.ProductWithBranch
 import com.chelo.smartstock.ui.theme.BackgroundColor
 import com.chelo.smartstock.ui.theme.BlackText
 import com.chelo.smartstock.ui.theme.ErrorRed
+import com.chelo.smartstock.ui.theme.ExpiredBgProduct
 import com.chelo.smartstock.ui.theme.WhiteText
 import com.chelo.smartstock.viewmodel.ProductViewModel
 
 @Composable
-fun ProductItem(productViewModel: ProductViewModel , product: ProductEntity, onEditButton: () -> Unit) {
+fun ProductItem(productViewModel: ProductViewModel , product: ProductWithBranch , onEditButton: () -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
-    val image = product.image.trim()
-    val bg = if (productViewModel.isExpired(product)) ErrorRed else WhiteText
-
+    val image = product.product.image.trim()
+    val bg = if (productViewModel.isExpired(product.product)) ExpiredBgProduct else WhiteText
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -70,11 +70,11 @@ fun ProductItem(productViewModel: ProductViewModel , product: ProductEntity, onE
 
             )
             Column(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
-
-                Text(product.nameProduct, fontSize = 32.sp, fontWeight = FontWeight.Bold)
-                Text("Codigo: ${product.codeBar}")
-                Text("Cantidad: ${product.count}")
-                Text("Vencimiento: ${product.expireDate}")
+                RoundedComponent(product.branch.branchName)
+                Text(product.product.nameProduct, fontSize = 32.sp, fontWeight = FontWeight.Bold)
+                Text("Codigo: ${product.product.codeBar}")
+                Text("Cantidad: ${product.product.count}")
+                Text("Vencimiento: ${product.product.expireDate}")
                 Spacer(modifier = Modifier.height(4.dp))
                 AnimatedVisibility(expanded) {
                     Row(
@@ -103,7 +103,7 @@ fun ProductItem(productViewModel: ProductViewModel , product: ProductEntity, onE
                         DeleteDialog(
                             onDismissClick = { showDeleteDialog = false },
                             onConfirmClick = {
-                                productViewModel.deleteProduct(product)
+                                productViewModel.deleteProduct(product.product)
                                 showDeleteDialog = false
                             })
                     }
@@ -111,7 +111,10 @@ fun ProductItem(productViewModel: ProductViewModel , product: ProductEntity, onE
                 }
             }
 
+
         }
+
+
 
     }
 

@@ -40,9 +40,11 @@ class MainViewmodel @Inject constructor(
             if (state) filteredProducts else allProducts
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(200), emptyList())
 
+
     fun changeState(value: Boolean) {
         _state.value = value
     }
+
 
 
     fun selectBranch(value: BranchEntity) {

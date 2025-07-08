@@ -24,6 +24,9 @@ import javax.inject.Inject
 class ProductViewModel @Inject constructor(private val repository: ProductRepository) :
     ViewModel() {
 
+    var branchName by mutableStateOf("")
+        private set
+
 
     var nameProduct by mutableStateOf("")
         private set
@@ -40,8 +43,8 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
     var expireDate by mutableStateOf("")
         private set
 
-    fun onExpireDateChange(value: String){
-        expireDate  = value
+    fun onExpireDateChange(value: String) {
+        expireDate = value
     }
 
     fun onNameChanged(value: String) {
@@ -49,14 +52,15 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
     }
 
 
-    fun onCodebarChanged(value: String){
+    fun onCodebarChanged(value: String) {
         codeBar = value
     }
 
-    fun onImageChanged(value : String){
+    fun onImageChanged(value: String) {
         image = value
     }
-    fun onCountChanged( value : String  ){
+
+    fun onCountChanged(value: String) {
         countProduct = value
     }
 
@@ -91,14 +95,12 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
     }
 
 
-
-
-    fun saveProduct(productId: Long?){
-        viewModelScope.launch { 
+    fun saveProduct(productId: Long?) {
+        viewModelScope.launch {
             val product = ProductEntity(
                 productId = productId ?: 0,
                 nameProduct = nameProduct,
-                count = countProduct.toInt() ,
+                count = countProduct.toInt(),
                 expireDate = expireDate,
                 codeBar = codeBar,
                 image = image,
@@ -109,28 +111,27 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
             else
                 insertProduct(product)
         }
-        
-    }
 
+    }
 
 
     fun getProductByCode(code: String) {
         codeBar = code
         viewModelScope.launch {
-            val result =  try {
-              RetrofitInstance.api.getProductByCode(codeBar).body()
+            val result = try {
+                RetrofitInstance.api.getProductByCode(codeBar).body()
             } catch (e: Exception) {
-                 null
+                null
             }
             _productResult.value = result
             nameProduct = _productResult.value?.product?.nameProduct ?: "No encontrado"
             image = _productResult.value?.product?.imageProduct ?: ""
-            Log.i("CHELO",image.toString())
+            Log.i("CHELO", image.toString())
         }
     }
 
 
-    fun loadProduct(productId : Long? ){
+    fun loadProduct(productId: Long?) {
         viewModelScope.launch {
             val product = repository.getProductById(productId!!)
             nameProduct = product.nameProduct
@@ -144,9 +145,13 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
     }
 
 
-    fun isExpired(product: ProductEntity) : Boolean{
+    fun isExpired(product: ProductEntity): Boolean {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        return LocalDate.parse(product.expireDate , formatter) < LocalDate.now()
+        return LocalDate.parse(product.expireDate, formatter) < LocalDate.now()
+    }
+
+    fun getBranchName(branchId: Long) {
+        viewModelScope.launch { branchName = repository.getBranchName(branchId) }
     }
 
 }

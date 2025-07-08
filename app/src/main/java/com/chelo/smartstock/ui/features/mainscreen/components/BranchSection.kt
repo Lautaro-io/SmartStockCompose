@@ -11,6 +11,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -35,6 +36,7 @@ fun BranchSection(
     modifier: Modifier = Modifier,
     branchViewModel: BranchViewModel,
     onButtonClick: () -> Unit,
+    onAllSelect:() -> Unit?,
     onValueChange: (BranchEntity) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -68,6 +70,15 @@ fun BranchSection(
                 expanded,
                 onDismissRequest = { expanded = false },
             ) {
+                DropdownMenuItem(
+                    text = { Text("All") },
+                    onClick = {
+                        onAllSelect()
+                        branchViewModel.selectedBranch = null
+                        expanded = false
+                    },
+
+                    )
                 branchViewModel.allBranches.collectAsState(emptyList()).value.forEach {
                     DropdownMenuItem(
                         text = { Text(it.branchName) },
@@ -84,8 +95,11 @@ fun BranchSection(
             onClick = onButtonClick,
             modifier = Modifier
                 .padding(end = 32.dp),
-            containerColor = BackgroundColor,
-            contentColor = WhiteText
+            containerColor = WhiteText,
+            contentColor = BackgroundColor,
+            elevation = FloatingActionButtonDefaults.elevation(
+                4.dp,
+            )
 
         ) {
             Icon(Icons.Default.Add, contentDescription = "")

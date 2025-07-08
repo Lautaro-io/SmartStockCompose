@@ -20,7 +20,6 @@ class BranchViewModel @Inject constructor(private val repository: BranchReposito
         private set
 
     var selectedBranch by mutableStateOf<BranchEntity?>(null)
-        private set
 
     fun onNameBranchChange(value : String) { newBranch = value}
     fun addBranch(branch: BranchEntity){

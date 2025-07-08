@@ -68,6 +68,7 @@ fun MainScreen(navController: NavController) {
                     .padding(innerPadding)
                     .fillMaxWidth(),
                 bvm,
+                onAllSelect = { mvm.changeState(false) },
                 onButtonClick = { showDialogBranch = true }) {
                 mvm.selectBranch(it)
                 mvm.changeState(true)
@@ -85,7 +86,7 @@ fun MainScreen(navController: NavController) {
                         ProductItem(
                             productViewModel,
                             product,
-                            onEditButton = { navController.navigate("${productForm.route}?imagePath=${product.image}?productId=${product.productId}") })
+                            onEditButton = { navController.navigate("${productForm.route}?imagePath=${product.product.image}?productId=${product.product.productId}") })
                     }
                 }
 

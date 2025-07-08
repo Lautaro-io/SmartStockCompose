@@ -16,7 +16,7 @@ class NotificationCheckerUseCase @Inject constructor(
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         val products = allProducts.first()
         val result = products.any {
-            val date = LocalDate.parse(it.expireDate, formatter)
+            val date = LocalDate.parse(it.product.expireDate, formatter)
             val should = ChronoUnit.DAYS.between(today, date) in 1..30
             should
         }
@@ -27,7 +27,7 @@ class NotificationCheckerUseCase @Inject constructor(
 
     suspend fun isProductExpired(): Boolean {
         return allProducts.first().any{
-            val date = LocalDate.parse(it.expireDate , DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+            val date = LocalDate.parse(it.product.expireDate , DateTimeFormatter.ofPattern("yyyy-MM-dd"))
             date == LocalDate.now()
         }
     }

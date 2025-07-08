@@ -11,8 +11,8 @@ import androidx.room.PrimaryKey
     foreignKeys = [
         ForeignKey(
             BranchEntity::class,
-            parentColumns = ["branchId"], //Aca en parent se refiere a la columna de la otra tabla a la que queremos referenciar
-            childColumns = ["branchFkId"], //Y por ende el Child  se refiere a la que le asignamos el valor o tenemos de referencia
+            parentColumns = ["branchId"],
+            childColumns = ["branchFkId"],
             onDelete = ForeignKey.CASCADE
         )],
     indices = [Index("branchFkId")]
