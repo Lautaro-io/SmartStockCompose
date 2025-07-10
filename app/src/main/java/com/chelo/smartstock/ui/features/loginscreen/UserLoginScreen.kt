@@ -5,10 +5,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
@@ -64,56 +62,71 @@ fun UserLoginScreen(navController: NavController) {
                 .fillMaxSize()
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
 
             ) {
-            Image(
-                painterResource(R.drawable.supermarket),
-                contentDescription = "Logo App",
-                modifier = Modifier.size(220.dp)
-            )
-            Text("Bienvenido!", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = WhiteText)
-            Spacer(modifier = Modifier.height(8.dp))
-
-            PersonalizedTextField( value = name , onValueChange = {name = it} , label = "Nombre")
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            PersonalizedTextField(value = surname , onValueChange = {surname = it}, label = "Apellido")
-            Spacer(modifier = Modifier.height(8.dp))
-
-
-            Button(
-                onClick = {
-                    if (name.isEmpty() && surname.isEmpty()) {
-                        Toast.makeText(context, "Complete todos los campos", Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        val user = UserEntity(0, name, surname)
-                        userViewModel.addUser(user) { userId ->
-                            CoroutineScope(Dispatchers.IO).launch {
-
-                                dataStore.saveUserId(userId)
-                                dataStore.saveUserName(user.name)
-                            }
-
-                            Toast.makeText(context, "Usuario registrado.", Toast.LENGTH_SHORT)
-                                .show()
-
-                            navController.navigate("branchloginscreen")
-                        }
-                    }
-
-
-                },
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = ButtonBackground,
-                    contentColor = WhiteText
+            Column(
+                verticalArrangement = Arrangement.Center ,
+                horizontalAlignment = Alignment.CenterHorizontally ,
+                modifier = Modifier.padding(top = 32.dp)) {
+                Image(
+                    painterResource(R.drawable.supermarket),
+                    contentDescription = "Logo App",
+                    modifier = Modifier.size(150.dp)
                 )
-            ) {
-                Text("Agregar usuario", fontSize = 18.sp)
+                Text(
+                    "Bienvenido!",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = WhiteText,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
             }
+            Column (
+                verticalArrangement = Arrangement.Center ,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.padding(top = 60.dp)){
+                PersonalizedTextField(value = name, onValueChange = { name = it }, label = "Nombre")
+                PersonalizedTextField(
+                    value = surname,
+                    onValueChange = { surname = it },
+                    label = "Apellido",
+                    modifier = Modifier.padding(vertical = 4.dp)
+                )
+
+
+                Button(
+                    onClick = {
+                        if (listOf(name,surname).any{it.isEmpty()}) {
+                            Toast.makeText(context, "Complete todos los campos", Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
+                            val user = UserEntity(0, name, surname)
+                            userViewModel.addUser(user) { userId ->
+                                CoroutineScope(Dispatchers.IO).launch {
+
+                                    dataStore.saveUserId(userId)
+                                    dataStore.saveUserName(user.name)
+                                }
+
+                                Toast.makeText(context, "Usuario registrado.", Toast.LENGTH_SHORT)
+                                    .show()
+
+                                navController.navigate("branchloginscreen")
+                            }
+                        }
+
+
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = ButtonBackground,
+                        contentColor = WhiteText
+                    )
+                ) {
+                    Text("Agregar usuario", fontSize = 18.sp)
+                }
+            }
+
 
         }
     }
