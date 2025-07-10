@@ -11,13 +11,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,8 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,9 +32,9 @@ import com.chelo.smartstock.R
 import com.chelo.smartstock.data.datastore.DataStoreManager
 import com.chelo.smartstock.data.entities.UserEntity
 import com.chelo.smartstock.ui.features.loginscreen.components.TitleApp
+import com.chelo.smartstock.ui.features.productformscreen.components.PersonalizedTextField
 import com.chelo.smartstock.ui.theme.BackgroundColor
 import com.chelo.smartstock.ui.theme.ButtonBackground
-import com.chelo.smartstock.ui.theme.SoftGray
 import com.chelo.smartstock.ui.theme.WhiteText
 import com.chelo.smartstock.viewmodel.UserViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -80,31 +74,12 @@ fun UserLoginScreen(navController: NavController) {
             )
             Text("Bienvenido!", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = WhiteText)
             Spacer(modifier = Modifier.height(8.dp))
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = name,
-                onValueChange = { name = it },
-                placeholder = { Text("Nombre", color = SoftGray) },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences, imeAction = ImeAction.Done),
 
-                shape = RoundedCornerShape(16.dp),
-                colors = TextFieldDefaults.colors()
+            PersonalizedTextField( value = name , onValueChange = {name = it} , label = "Nombre")
 
-            )
             Spacer(modifier = Modifier.height(8.dp))
 
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = surname,
-                onValueChange = { surname = it },
-                placeholder = { Text("Apellido", color = SoftGray) },
-                shape = RoundedCornerShape(16.dp),
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences , imeAction = ImeAction.Done),
-                
-                colors = TextFieldDefaults.colors()
-            )
+            PersonalizedTextField(value = surname , onValueChange = {surname = it}, label = "Apellido")
             Spacer(modifier = Modifier.height(8.dp))
 
 

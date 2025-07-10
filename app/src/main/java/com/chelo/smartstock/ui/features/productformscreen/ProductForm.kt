@@ -131,7 +131,8 @@ fun ProductForm(navController: NavController, decodeImage: String?, productId: L
                 ImageContainer(
                     imagePath = decodeImage,
                     navController = navController,
-                    imageUrl = pvm.image
+                    imageUrl = pvm.image,
+                    isLoading = pvm.spinnerStatus
                 )
                 PersonalizedTextField(
                     value = pvm.nameProduct,

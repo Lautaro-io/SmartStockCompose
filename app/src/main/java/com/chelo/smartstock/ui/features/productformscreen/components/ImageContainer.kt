@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -33,10 +34,12 @@ fun ImageContainer(
     imagePath: String?,
     imageUrl: String? = "",
     navController: NavController,
+    isLoading: Boolean = false,
 ) {
     val file = imagePath?.let { File(it) }
 
     Box(contentAlignment = Alignment.Center) {
+
         Row(
             modifier = modifier
                 .size(150.dp)
@@ -44,25 +47,34 @@ fun ImageContainer(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (file != null && file.exists())
-                Image(
-                    painter = rememberAsyncImagePainter(file),
-                    contentDescription = "",
-                    modifier = modifier.fillMaxSize(), contentScale = ContentScale.Crop
-                )
-            else
-                if (imageUrl?.isNotEmpty() == true || imageUrl != "") {
-                    Image(
-                        rememberAsyncImagePainter(imageUrl),
-                        contentDescription = "",
-                        contentScale = ContentScale.Crop
-                    )
-                }else Image(
-                    painterResource(R.drawable.defaul),
-                    contentDescription = "",
-                    modifier = modifier.fillMaxSize()
-                )
+            if (isLoading)
+                CircularProgressIndicator(
+                    color = BackgroundColor,
+                    modifier = Modifier
+                        .size(48.dp)
 
+                )
+            else {
+                if (file != null && file.exists())
+                    Image(
+                        painter = rememberAsyncImagePainter(file),
+                        contentDescription = "",
+                        modifier = modifier.fillMaxSize(), contentScale = ContentScale.Crop
+                    )
+                else
+                    if (imageUrl?.isNotEmpty() == true || imageUrl != "") {
+                        Image(
+                            rememberAsyncImagePainter(imageUrl),
+                            contentDescription = "",
+                            contentScale = ContentScale.Crop
+                        )
+                    } else Image(
+                        painterResource(R.drawable.defaul),
+                        contentDescription = "",
+                        modifier = modifier.fillMaxSize()
+                    )
+
+            }
 
 
         }

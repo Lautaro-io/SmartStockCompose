@@ -4,5 +4,9 @@
     <style name="Theme.SmartStock" parent="android:Theme.Material.Light.NoActionBar"
         >
         <item name="android:windowSplashScreenBackground" tools:targetApi="31">#FF0077B6</item>
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
+
 </resources>

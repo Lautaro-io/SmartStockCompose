@@ -18,6 +18,9 @@ val LetterColor = Color(0xFF101C5E)
 val WhiteText = Color(0xFFFFFFFF)
 val ButtonBackground = Color(0xFF03045e)
 val BlackText = Color(0xFF000000)
+val bg = Color(0xFF282727)
+val Transparent = Color(0x00FFFFFF)
+
 
 
 val LightBlue = Color(0xFF00B4D8)

@@ -28,6 +28,9 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
         private set
 
 
+    var spinnerStatus by mutableStateOf(false)
+        private set
+
     var nameProduct by mutableStateOf("")
         private set
     var codeBar by mutableStateOf("")
@@ -116,6 +119,7 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
 
 
     fun getProductByCode(code: String) {
+        spinnerStatus = true
         codeBar = code
         viewModelScope.launch {
             val result = try {
@@ -125,6 +129,7 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
             }
             _productResult.value = result
             nameProduct = _productResult.value?.product?.nameProduct ?: "No encontrado"
+            spinnerStatus = false
             image = _productResult.value?.product?.imageProduct ?: ""
             Log.i("CHELO", image.toString())
         }

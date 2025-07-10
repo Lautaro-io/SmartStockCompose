@@ -1,6 +1,7 @@
 package com.chelo.smartstock.ui.features.mainscreen.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -34,11 +35,16 @@ import com.chelo.smartstock.ui.theme.BackgroundColor
 import com.chelo.smartstock.ui.theme.BlackText
 import com.chelo.smartstock.ui.theme.ErrorRed
 import com.chelo.smartstock.ui.theme.ExpiredBgProduct
+import com.chelo.smartstock.ui.theme.Transparent
 import com.chelo.smartstock.ui.theme.WhiteText
 import com.chelo.smartstock.viewmodel.ProductViewModel
 
 @Composable
-fun ProductItem(productViewModel: ProductViewModel , product: ProductWithBranch , onEditButton: () -> Unit) {
+fun ProductItem(
+    productViewModel: ProductViewModel,
+    product: ProductWithBranch,
+    onEditButton: () -> Unit,
+) {
     var expanded by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
     val image = product.product.image.trim()
@@ -55,7 +61,9 @@ fun ProductItem(productViewModel: ProductViewModel , product: ProductWithBranch 
         Row(
             modifier = Modifier
                 .padding(4.dp)
-                .fillMaxSize(),
+                .fillMaxSize()
+                .background(Transparent)
+            ,
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -69,13 +77,31 @@ fun ProductItem(productViewModel: ProductViewModel , product: ProductWithBranch 
                     .padding(4.dp)
 
             )
-            Column(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
-                RoundedComponent(product.branch.branchName)
-                Text(product.product.nameProduct, fontSize = 32.sp, fontWeight = FontWeight.Bold)
-                Text("Codigo: ${product.product.codeBar}")
-                Text("Cantidad: ${product.product.count}")
-                Text("Vencimiento: ${product.product.expireDate}")
-                Spacer(modifier = Modifier.height(4.dp))
+            Column(Modifier.fillMaxWidth()){
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Column(
+                        modifier = Modifier
+                            .padding(vertical = 4.dp)
+                            .weight(1.3f)
+                    ) {
+                        Text(
+                            product.product.nameProduct,
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text("Codigo: ${product.product.codeBar}")
+                        Text("Cantidad: ${product.product.count}")
+                        Text("Vencimiento: ${product.product.expireDate}")
+                        Spacer(modifier = Modifier.height(4.dp))
+
+                    }
+                    Row(modifier = Modifier.weight(1f), horizontalArrangement = Arrangement.End) {
+                        RoundedComponent(
+                            product.branch.branchName
+                            ,modifier = Modifier.padding(8.dp)
+                        )
+                    }
+                }
                 AnimatedVisibility(expanded) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -115,7 +141,9 @@ fun ProductItem(productViewModel: ProductViewModel , product: ProductWithBranch 
         }
 
 
-
     }
 
 }
+
+
+

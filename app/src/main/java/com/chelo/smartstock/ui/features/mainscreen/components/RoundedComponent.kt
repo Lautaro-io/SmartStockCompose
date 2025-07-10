@@ -19,6 +19,7 @@ fun RoundedComponent(
     modifier: Modifier = Modifier,
 ) {
     Surface(
+        modifier = modifier.padding(4.dp),
         shape = RoundedCornerShape(16.dp),
         border = BorderStroke(2.dp, BackgroundColor),
         color = BackgroundColor
@@ -27,7 +28,7 @@ fun RoundedComponent(
             text = text,
             color = WhiteText,
             fontWeight = FontWeight.Bold,
-            modifier = modifier.padding(8.dp)
+            modifier = modifier.padding(4.dp)
         )
 
     }

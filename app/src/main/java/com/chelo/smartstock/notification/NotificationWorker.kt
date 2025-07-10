@@ -36,7 +36,6 @@ class NotificationWorker @AssistedInject constructor(
 
 
     override suspend fun doWork(): Result {
-        Log.i("CHELO", "Worker en dowork")
         createNotificationChannel()
         try {
             when {
@@ -52,7 +51,6 @@ class NotificationWorker @AssistedInject constructor(
             }
             return Result.success()
         } catch (e: Exception) {
-            Log.i("CHELO", e.toString())
             return Result.failure()
         }
     }
