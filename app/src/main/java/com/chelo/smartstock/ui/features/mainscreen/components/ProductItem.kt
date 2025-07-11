@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -49,6 +50,7 @@ fun ProductItem(
     var showDeleteDialog by remember { mutableStateOf(false) }
     val image = product.product.image.trim()
     val bg = if (productViewModel.isExpired(product.product)) ExpiredBgProduct else WhiteText
+    val overFlow = if (expanded) TextOverflow.Clip else TextOverflow.Ellipsis
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -88,6 +90,8 @@ fun ProductItem(
                             product.product.nameProduct,
                             fontSize = 24.sp,
                             fontWeight = FontWeight.Bold
+                            , maxLines = 1,
+                            overflow = overFlow
                         )
                         Text("Codigo: ${product.product.codeBar}")
                         Text("Cantidad: ${product.product.count}")

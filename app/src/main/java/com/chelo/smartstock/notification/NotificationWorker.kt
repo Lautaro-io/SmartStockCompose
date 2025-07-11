@@ -72,7 +72,7 @@ class NotificationWorker @AssistedInject constructor(
             .setContentTitle(title)
             .setContentText(message)
             .setPriority(NotificationManager.IMPORTANCE_HIGH)
-            .setSmallIcon(R.drawable.emptyicon)
+            .setSmallIcon(R.drawable.notisvg)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .build()
