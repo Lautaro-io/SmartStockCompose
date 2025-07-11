@@ -12,14 +12,14 @@ fun DeleteDialog(onDismissClick: () -> Unit, onConfirmClick: () -> Unit) {
 
 
     AlertDialog(
-        onDismissRequest = { onDismissClick },
+        onDismissRequest = { onDismissClick() },
         confirmButton = {
             TextButton(onClick = onConfirmClick) {
                 Text("Confirmar", color = ErrorRed)
             }
         },
         dismissButton = {
-            TextButton(onClick = { onDismissClick }) {
+            TextButton(onClick = { onDismissClick()}) {
                 Text(
                     "Cancelar",
                     color = DarkBackground
